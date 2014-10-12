@@ -65,7 +65,7 @@ while choice ~= 7
             %Weighted Averaging Start
           
             for i=1:4
-                weight(i)=pdist2(godzilla(i,:),pivot);
+                weight(i)=pdist([godzilla(i,:);pivot],'euclidean');
             end
             
             weight2=mean(weight);
