@@ -1,7 +1,12 @@
 choice = menu('Thickness Loss Data Analysis Program (TLDAP)','Log Spot','View Spot','View Sample','View Sample Cross Section','Plot Spot Shape','Plot S Curve','Exit');
-while choice ~= 7
+
+% Closes menu if the user chooses the exit open or hits the 'x'
+while choice ~= 7 & choice ~= 0
+    
     switch choice
-        case 1 %Log Spot
+        
+        %Log Spot
+        case 1 
             [fileName,pathName] = uigetfile('.txt', 'Open Ellipsometry Sample File');
             fileID = fopen(strcat(pathName, fileName));
             ellipsText = textscan(fileID,'%s',2,'delimiter','\n');
@@ -111,7 +116,9 @@ while choice ~= 7
             
             dlmwrite(strcat('Ellipsometry DATA/',resist{1},'/',energy{1},'_',dose{1},'.spot'),spot);
             dlmwrite(strcat('Ellipsometry DATA/',resist{1},'/',energy{1},'.data'),data,'-append','newline', 'pc');
-        case 2 %View Spot
+        
+        %View Spot
+        case 2
             [fileName,pathName] = uigetfile('.spot', 'Open Spot File');
             M = csvread(strcat(pathName,fileName));
             
@@ -124,7 +131,9 @@ while choice ~= 7
             axis([min(X2) max(X2) min(Y2) max(Y2)]);
             axis equal;
             waitfor(c);
-        case 3 %View Sample
+        
+        %View Sample
+        case 3 
             [fileName,pathName] = uigetfile('.txt', 'Open Ellipsometry Sample File');
             fileID = fopen(strcat(pathName, fileName));
             ellipsText = textscan(fileID,'%s',2,'delimiter','\n');
@@ -159,7 +168,8 @@ while choice ~= 7
             
             waitfor(d);
             
-        case 4 %View Sample Cross Section
+        %View Sample Cross Section
+        case 4
             [fileName,pathName] = uigetfile('.txt', 'Open Ellipsometry Sample File');
             fileID = fopen(strcat(pathName, fileName));
             ellipsText = textscan(fileID,'%s',2,'delimiter','\n');
@@ -203,7 +213,9 @@ while choice ~= 7
             end
             
             waitfor(f);
-        case 5 %Plot Spot Shape
+        
+        %Plot Spot Shape
+        case 5
             [fileName,pathName] = uigetfile('.spot', 'Open Spot Files', 'MultiSelect', 'on');
             [crossFileName,crossPathName] = uigetfile('.cross', 'Open Cross Section File');
             C = csvread(strcat(crossPathName,crossFileName));
@@ -285,8 +297,8 @@ while choice ~= 7
             axis normal;
             
             
-            
-        case 6 %Plot S Curve
+        %Plot S Curve
+        case 6
             doseRange = [];
             thicknessLoss = [];
             background = [];
@@ -342,10 +354,12 @@ while choice ~= 7
             
             dlmwrite(strcat('Ellipsometry DATA/',resist{1},'/',energy{1},'_sCurve.txt'),[doseRange' thicknessLoss']);
             
-            waitfor(g);
-            
+            waitfor(g);           
     end
+    
+    %Reopen menu if finished with previous selection
     choice = menu('Thickness Loss Data Analysis Program (TLDAP)','Log Spot','View Spot','View Sample','View Sample Cross Section','Plot Spot Shape','Plot S Curve','Exit');
+    
 end
 
 fclose('all');
